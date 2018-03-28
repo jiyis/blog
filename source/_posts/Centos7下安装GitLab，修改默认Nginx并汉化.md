@@ -3,6 +3,8 @@ categories: Linux
 tags: [Linux,GitLab,Git]
 date: 2016-12-01 10:32:00
 ---
+
+
 ### 前言 
 尝试够了自己搭建git服务器，突然想给自己公司搭建个带web的gitlab玩玩，然后这一玩就是折腾了一天。踩了各种坑后终于安装好了，顺手记录一下。
 

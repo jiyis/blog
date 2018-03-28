@@ -3,6 +3,8 @@ categories: Linux
 tags: [PHP7扩展编译]
 date: 2016-10-14 14:50:00
 ---
+
+
 ### mysql扩展的安装
 由于php7已经默认把mysql去除，所以需要自己去pecl上编译mysql扩展。具体链接如下：http://git.php.net/?p=pecl/database/mysql.git;a=summary
 
