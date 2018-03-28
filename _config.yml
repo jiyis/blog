@@ -3,19 +3,23 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle:
-description:
-keywords:
-author: John Doe
+title: Jiyis的博客
+subtitle: Stay Hungry, Stay Foolish
+description: Jiyis Blog分享和交流php和linux相关知识和经验，同时会分享一些laravel的项目和使用技巧。
+keywords: php,laravel,laravel博客,php社区,laravel教程,Jiyis blog,记忆的博客,laravel项目,php7,laravel5
+author: Jiyis
 language:
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: http://jiyis.club
 root: /
 permalink: :year/:month/:day/:title/
+tag_dir: tags
+archive_dir: archives
+category_dir: categories
+code_dir: downloads/code
 permalink_defaults:
 
 # Directory
@@ -42,7 +46,7 @@ highlight:
   enable: true
   line_number: true
   auto_detect: false
-  tab_replace:
+  tab_replace: ''
   
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
@@ -57,6 +61,23 @@ index_generator:
 default_category: uncategorized
 category_map:
 tag_map:
+
+# Archives
+## 2: Enable pagination
+## 1: Disable pagination
+## 0: Fully Disable
+archive: 1
+category: 1
+tag: 1
+
+# Server
+## Hexo uses Connect as a server
+## You can customize the logger format as defined in
+## http://www.senchalabs.org/connect/logger.html
+port: 4000
+server_ip: localhost
+logger: false
+logger_format: dev
 
 # Date / Time format
 ## Hexo uses Moment.js to parse and display date
@@ -74,6 +95,7 @@ pagination_dir: page
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 theme: yilia
+exclude_generator:
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
