@@ -14,8 +14,8 @@ date: 2016-12-01 10:32:00
 	缺点：国外的源不稳定，被墙时，依赖软件包难以下载(Mysql，Redis，Postfix，Ruby，Nginx……)。配置流程繁琐、复杂，容易出现各种各样的问题。卸载GitLab相对麻烦。
 - 通过rpm包安装
 	优点：安装过程简单，安装速度快。采用rpm包安装方式，安装的软件包便于管理。
-	缺点：数据库默认采用PostgreSQL，服务器默认采用Nginx，不容易定制，但是可以更改默认Nginx。
-<!-- more -->
+	缺点：数据库默认采用PostgreSQL，服务器默认采用Nginx，不容易定制，但是可以更改默认Nginx。<!-- more -->
+
 ### 安装依赖库
 GitLab的中文社区地址是https://www.gitlab.cc/downloads/#centos7 。
 ```sh

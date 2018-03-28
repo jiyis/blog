@@ -1,4 +1,4 @@
-title: 分享一个 Laravel5.2 写的简单的报名系统主页
+title:分享一个 Laravel5.2 写的简单的报名系统主页
 categories: Laravel
 tags: [Laravel]
 date: 2016-08-30 09:59:00
