@@ -3,11 +3,11 @@ categories: Laravel
 tags: [Laravel多字段登录]
 date: 2016-10-14 15:24:00
 ---
-###前言
+### 前言
 现在许多网站都是兼容邮箱、手机号或者用户名来登录的，而Larave中默认是只支持email登录的，我们知道可以通过设置```protected $username = 'name';```来更改为用户名登录。但是如果想兼容多个字段该怎么设置呢？百度一下的话你会发现许多方式，其实有部分是修改源码的方式，有部分是重构的方式。个人还是比较喜欢重构这种方式的，毕竟能保留框架自带的许多功能，但是这些都是针对于Laravel5.和5.2版本的。在Laravel5.3中并不适用，看了下Laravel5.3的改动，最终通过重构trait的方法实现了。
-
-###Laravel5.3重构方式实现多字段登录
-修改/app/Http/Controllers/Auth/LoginController.php
+<!-- more -->
+> ### Laravel5.3重构方式实现多字段登录
+修改`/app/Http/Controllers/Auth/LoginController.php`
 ```php
 //use AuthenticatesUsers;
 use AuthenticatesUsers {
@@ -60,9 +60,9 @@ use AuthenticatesUsers {
 ```
 主要实录就是重构username方法，在henticatesUsers中，username方法被写死了，而更改系统文件是不建议的。所以为了尽可能保留laravel自带的特性，最终验证还是交给laravel，这边做一层过滤和校验。
 
-###Laravel5.3 之前的方法
+> ### Laravel5.3 之前的方法
 1. **方法一** 
-修改 /app/Http/Controllers/Auth/AuthController.php 文件，重写方法.
+修改 `/app/Http/Controllers/Auth/AuthController.php` 文件，重写方法.
 ```php
 namespace App\Http\Controllers\Auth;
 ......
@@ -86,8 +86,8 @@ class AuthController extends Controller
     }
 }
 ```
-1. ** 方法二**
-修改 /app/Http/Controllers/Auth/AuthController.php 文件，这也是使用 Laravel 自带认证系统的一种方法。
+2.  ** 方法二**
+修改 `/app/Http/Controllers/Auth/AuthController.php` 文件，这也是使用 Laravel 自带认证系统的一种方法。
 ```php
 namespace App\Http\Controllers\Auth;
 ......

@@ -3,20 +3,20 @@ categories: Linux
 tags: [PHP7扩展编译]
 date: 2016-10-14 14:50:00
 ---
-###mysql扩展的安装
+> ### mysql扩展的安装
 由于php7已经默认把mysql去除，所以需要自己去pecl上编译mysql扩展。具体链接如下：http://git.php.net/?p=pecl/database/mysql.git;a=summary
-```shell
+```sh
 tar zxvf mysql-version.tar.gz
 cd mysql-version
 /web/server/php/bin/phpize
 ./configure --with-php-config=/web/server/php/bin/php-config
 make && make install
 ```
-修改配置文件php.ini,添加 extension=mysql.so
+修改配置文件php.ini,添加 `extension=mysql.so`
 重启php-fpm使其生效
-
-###xdebug扩展的安装
-```shell
+<!-- more -->
+> ### xdebug扩展的安装
+```sh
 git clone git://github.com/xdebug/xdebug.git
 cd xdebug
 /web/server/php/bin/phpize
@@ -24,7 +24,7 @@ cd xdebug
 make && make install
 ```
 修改配置文件php.ini,添加以下代码，然后重启php-fpm使其生效
-```shell
+```sh
 ;[xdebug]
 zend_extension=xdebug.so
 xdebug.remote_enable = On
@@ -46,9 +46,9 @@ xdebug.profiler_output_dir="/vagrant/xdebug"
 xdebug.max_nesting_level  =  200  ;最大循环或调试次数，防止死循环    
 ```
 
-###memcached 安装（php-memcache的扩展）
+> ### memcached 安装（php-memcache的扩展）
 首先下载memcached的服务端，然后编译安装
-```shell
+```sh
 wget http://www.memcached.org/files/memcached-1.4.32.tar.gz
 tar zxvf memcached-1.4.32.tar.gz
 cd memcached-1.4.32
@@ -56,7 +56,7 @@ cd memcached-1.4.32
 make && make install
 ```
 编译php7-memcache的扩展,首先从http://www.qingxinzui.com/wp-content/uploads/2016/02/pecl-memcache-php7.tar.gz下载好源码文件
-```shell
+```sh
 tar zxvf pecl-memcache-php7.tar.gz
 cd pecl-memcache-php7
 /web/server/php/bin/phpize
@@ -67,11 +67,11 @@ make && make install
 重启php-fpm使其生效
 
 编写memcached的启动脚本
-```shell
+```sh
 vi /etc/init.d/memcached
 ```
 写入下面脚本
-```shell
+```sh
 #!/bin/sh
 #
 # memcached    Startup script for memcached processes
@@ -138,14 +138,14 @@ esac
 exit $RETVAL
 ```
 给予执行权限，然后设置开机启动
-```shell
+```sh
 chkconfig --add memcached  
 chkconfig memcached on
 service memcached start
 ```
 
-###redis的编译安装
-```shell
+> ### redis的编译安装
+```sh
 wget http://download.redis.io/releases/redis-3.2.3.tar.gz
 tar zxvf redis-3.2.3.tar.gz
 cd redis-3.2.3
@@ -157,7 +157,7 @@ cd /web/server/redis
 cp redis-benchmark redis-cli redis-server /usr/bin/
 ```
 调整下内存分配使用方式并使其生效
-```shell
+```sh
 #此参数可用的值为0,1,2 
 #0表示当用户空间请求更多的内存时，内核尝试估算出可用的内存 
 #1表示内核允许超量使用内存直到内存用完为止 
@@ -166,7 +166,7 @@ echo "vm.overcommit_memory=1">>/etc/sysctl.conf
 sysctl -p
 ```
 修改redis的配置
-```shell
+```sh
 vim /usr/local/redis/etc/redis.conf
 
 # 修改以下配置
@@ -185,7 +185,7 @@ loglevel verbose
 logfile stdout
 ```
 redis环境变量配置
-```shell
+```sh
 vim /etc/profile
 
 PATH=$PATH:/web/server/nginx/sbin:/web/server/php/bin:/web/server/mysql/bin:/web/server/redis/bin
@@ -197,7 +197,7 @@ export PATH
 source /etc/profile
 ```
 设置redis启动脚本
-```shell
+```sh
 #!/bin/bash
 #chkconfig: 2345 80 90
 # Simple Redis init.d script conceived to work on Linux systems
@@ -251,7 +251,7 @@ case "$1" in
 esac
 ```
 设置redis开机启动
-```shell
+```sh
 # 复制脚本文件到init.d目录下
 cp redis /etc/init.d/
 
@@ -266,8 +266,8 @@ chkconfig --level 2345 redis on
 service redis start
 ```
 利用pecl直接安装phpredis扩展
-```shell
+```sh
 pecl install redis
 ```
-修改配置文件php.ini,添加 extension=redis.so
+修改配置文件php.ini,添加 `extension=redis.so`
 重启php-fpm使其生效

@@ -3,30 +3,31 @@ categories: Linux
 tags: [lnmp,centos7,php7]
 date: 2016-10-13 14:07:00
 ---
-###前言
+> ### 前言
 由于自己采用vagrant作为本地开发环境，所以注定会经常的编译和升级环境了。升级到Centos 7后不得不重新搭建一个本地的box，所以特此记录下方法，供自己以后参考。废话不多说，接上步骤！
-###更新系统软件
+<!-- more -->
+> ### 更新系统软件
 备份下默认的yum源
-```shell
+```sh
 mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
 ```
 更换为阿里云的yum源
-```shell
+```sh
 wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
 ```
 生成缓存
-```shell
+```sh
 yum makecache
 ```
 更新系统软件
-```shell
+```sh
 yum update
 ```
 
-###准备工作
+> ### 准备工作
 
 安装基本的依赖库
-```shell
+```sh
 mkdir -p /web/source
 cd /web/source
 yum install wget
@@ -44,9 +45,9 @@ cd pcre-8.39
 make && make install
 cd ../
 ```
-###编译安装nginx
+> ### 编译安装nginx
 
-```shell
+```sh
 wget http://nginx.org/download/nginx-1.10.1.tar.gz
 tar zxvf nginx-1.10.1.tar.gz  
 cd nginx-1.10.1  
@@ -56,11 +57,11 @@ make install
 cd ../  
 ```
 编写nginx启动脚本
-```shell
+```sh
 vi /usr/lib/systemd/system/nginx.service
 ```
 然后讲下列脚本复制进去，保存。
-```shell
+```sh
 [Unit]
 Description=The nginx HTTP and reverse proxy server
 After=syslog.target network.target remote-fs.target nss-lookup.target
@@ -78,14 +79,14 @@ PrivateTmp=true
 WantedBy=multi-user.target
 ```
 给予执行权限并设置开机启动
-```shell
+```sh
 chmod +x /usr/lib/systemd/system/nginx.service
 systemctl enable nginx.service
 ```
 
-###编译安装mariadb
+> ### 编译安装mariadb
 添加mysql用户组和用户
-```shell
+```sh
 /usr/sbin/groupadd mysql  
 /usr/sbin/useradd -g mysql mysql
 mkdir -p /web/data/mysql 
@@ -93,7 +94,7 @@ chown -R mysql:mysql /web/data/mysql
 wget https://mirrors.tuna.tsinghua.edu.cn/mariadb//mariadb-5.5.52/source/mariadb-5.5.52.tar.gz
 ```
 编译安装，由于tokudb一直报gcc错误，先不编译。
-```shell
+```sh
 tar -zxvf mariadb-5.5.52.tar.gz &&
 cd mariadb-5.5.52
 cmake . -DCMAKE_INSTALL_PREFIX=/web/server/mysql -DMYSQL_DATADIR=/web/data/mysql -DSYSCONFDIR=/etc -DWITHOUT_TOKUDB=1
@@ -101,7 +102,7 @@ make
 make install
 ```
 初始化数据库,拷贝启动脚本
-```shell
+```sh
 rm -rf  /etc/my.cnf 
 cd /web/server/mysql
 ./scripts/mysql_install_db --user=mysql --basedir=/web/server/mysql --datadir=/web/data/mysql
@@ -113,15 +114,15 @@ chkconfig mysqld on
 service mysqld start
 ```
 
-###编译安装php
+> ### 编译安装php
 安装php所需要的基本依赖库，centos源不能安装libmcrypt-devel，由于版权的原因没有自带mcrypt的包
-```shell
+```sh
 wget http://www.atomicorp.com/installers/atomic
 sh ./atomic
 yum install libxml2 libxml2-devel openssl openssl-devel bzip2 bzip2-devel libcurl libcurl-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel gmp gmp-devel php-mcrypt  libmcrypt libmcrypt-devel readline readline-devel libxslt libxslt-devel
 ```
 编译配置
-```shell
+```sh
 wget http://cn2.php.net/distributions/php-7.0.11.tar.gz
 tar zxvf php-7.0.11.tar.gz
 cd php-7.0.11.tar.gz
@@ -134,11 +135,11 @@ cp /web/server/php/etc/php-fpm.conf.default /web/server/php/etc/php-fpm.conf
 cp /web/server/php/etc/php-fpm.d/www.conf.default /web/server/php/etc/php-fpm.d/www.conf
 ```
 编写php-fpm启动脚本
-```shell
+```sh
 vi /usr/lib/systemd/system/php-fpm.service
 ```
 然后讲下列脚本复制进去，保存。
-```shell
+```sh
 [Unit]
 Description=The PHP FastCGI Process Manager
 After=syslog.target network.target
@@ -154,49 +155,49 @@ WantedBy=multi-user.target
 
 ```
 给予执行权限并设置开机启动
-```shell
+```sh
 chmod +x /usr/lib/systemd/system/php-fpm.service
 systemctl enable php-fpm.service
 ```
 
-###设置nginx、mysql和php的环境变量
-```shell
+> ### 设置nginx、mysql和php的环境变量
+```sh
 vi /etc/profile
 ```
 然后按下shift+g到文档最底部，假如下列代码
-```shell
+```sh
 PATH=$PATH:/web/server/nginx/sbin:/web/server/php/bin:/web/server/mysql/bin
 export PATH
 ```
 刷新使其立即生效
-```shell
+```sh
 source /etc/profile
 ```
 
-###更换防火墙
+> ### 更换防火墙
 关闭firewall
-```shell
+```sh
 systemctl stop firewalld.service 
 systemctl disable firewalld.service 
 ```
 安装iptables
-```shell
+```sh
 yum install iptables-services 
 vi /etc/sysconfig/iptables 
 ```
 在中间加入下列两行
-```shell
+```sh
 -A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
 -A INPUT -m state --state NEW -m tcp -p tcp --dport 3306 -j ACCEPT
 ```
 重启生效
-```shell
+```sh
 systemctl restart iptables.service 
 systemctl enable iptables.service 
 ```
 
-###关闭SELINUX
-```shell
+> ### 关闭SELINUX
+```sh
 vi /etc/selinux/config
 #SELINUX=enforcing #注释掉
 #SELINUXTYPE=targeted #注释掉
@@ -204,6 +205,6 @@ SELINUX=disabled #增加
 ```
 :wq! #保存退出
 使配置立即生效
-```shell
+```sh
 setenforce 0 
 ```

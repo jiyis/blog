@@ -8,7 +8,7 @@ date: 2016-08-31 15:34:00
 Ioc有两种不同的实现方式，分别是：Dependency Injection 和 Service Locator。现在很多 PHP 框架都实现了容器，比如 Phalcon，Yii，Laravel 等。
 
 至于 Dependency Injection 和 Service Locator 的区别，与其说一套云山雾绕的概念，不能给出几个鲜活的例子来得自然。
-
+<!-- more -->
 如果没有容器，那么 Dependency Injection 看起来就像：
 ```php
 class Foo
