@@ -3,10 +3,10 @@ categories: Linux
 tags: [lnmp,centos7,php7]
 date: 2016-10-13 14:07:00
 ---
-> ### 前言
+### 前言
 由于自己采用vagrant作为本地开发环境，所以注定会经常的编译和升级环境了。升级到Centos 7后不得不重新搭建一个本地的box，所以特此记录下方法，供自己以后参考。废话不多说，接上步骤！
 <!-- more -->
-> ### 更新系统软件
+### 更新系统软件
 备份下默认的yum源
 ```sh
 mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
@@ -24,7 +24,7 @@ yum makecache
 yum update
 ```
 
-> ### 准备工作
+### 准备工作
 
 安装基本的依赖库
 ```sh
@@ -45,7 +45,7 @@ cd pcre-8.39
 make && make install
 cd ../
 ```
-> ### 编译安装nginx
+### 编译安装nginx
 
 ```sh
 wget http://nginx.org/download/nginx-1.10.1.tar.gz
@@ -84,7 +84,7 @@ chmod +x /usr/lib/systemd/system/nginx.service
 systemctl enable nginx.service
 ```
 
-> ### 编译安装mariadb
+### 编译安装mariadb
 添加mysql用户组和用户
 ```sh
 /usr/sbin/groupadd mysql  
@@ -114,7 +114,7 @@ chkconfig mysqld on
 service mysqld start
 ```
 
-> ### 编译安装php
+### 编译安装php
 安装php所需要的基本依赖库，centos源不能安装libmcrypt-devel，由于版权的原因没有自带mcrypt的包
 ```sh
 wget http://www.atomicorp.com/installers/atomic
@@ -160,7 +160,7 @@ chmod +x /usr/lib/systemd/system/php-fpm.service
 systemctl enable php-fpm.service
 ```
 
-> ### 设置nginx、mysql和php的环境变量
+### 设置nginx、mysql和php的环境变量
 ```sh
 vi /etc/profile
 ```
@@ -174,7 +174,7 @@ export PATH
 source /etc/profile
 ```
 
-> ### 更换防火墙
+### 更换防火墙
 关闭firewall
 ```sh
 systemctl stop firewalld.service 
@@ -196,7 +196,7 @@ systemctl restart iptables.service
 systemctl enable iptables.service 
 ```
 
-> ### 关闭SELINUX
+### 关闭SELINUX
 ```sh
 vi /etc/selinux/config
 #SELINUX=enforcing #注释掉

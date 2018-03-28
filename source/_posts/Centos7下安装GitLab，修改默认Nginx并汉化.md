@@ -3,11 +3,10 @@ categories: Linux
 tags: [Linux,GitLab,Git]
 date: 2016-12-01 10:32:00
 ---
-> ### 前言 
+### 前言 
 尝试够了自己搭建git服务器，突然想给自己公司搭建个带web的gitlab玩玩，然后这一玩就是折腾了一天。踩了各种坑后终于安装好了，顺手记录一下。
 
-> ### GitLab的安装方法
-
+### GitLab的安装方法
 - 编译安装
 	优点：可定制性强。数据库既可以选择MySQL,也可以选择PostgreSQL;服务器既可以选择Apache，也可以选择Nginx。
 	缺点：国外的源不稳定，被墙时，依赖软件包难以下载(Mysql，Redis，Postfix，Ruby，Nginx……)。配置流程繁琐、复杂，容易出现各种各样的问题。卸载GitLab相对麻烦。
@@ -15,7 +14,7 @@ date: 2016-12-01 10:32:00
 	优点：安装过程简单，安装速度快。采用rpm包安装方式，安装的软件包便于管理。
 	缺点：数据库默认采用PostgreSQL，服务器默认采用Nginx，不容易定制，但是可以更改默认Nginx。
 <!-- more -->
-> ### 安装依赖库
+### 安装依赖库
 GitLab的中文社区地址是https://www.gitlab.cc/downloads/#centos7 。
 ```sh
     # 安装依赖包
@@ -25,14 +24,14 @@ GitLab的中文社区地址是https://www.gitlab.cc/downloads/#centos7 。
     # 检查 postfix
     sudo chkconfig postfix on
 ```
-> ### 下载RPM包安装
+### 下载RPM包安装
 从清华镜像下载rpm包，由于中文版本目前最新式8.8，所以下载8.8版本
 ```sh
 curl -LJO https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el7/gitlab-ce-8.8.3-ce.0.el7.x86_64.rpm
 rpm -i gitlab-ce-8.8.3-ce.0.el7.x86_64.rpm
 sudo gitlab-ctl reconfigure  ##初始化配置
 ```
-> ### 修改host和默认nginx
+### 修改host和默认nginx
 添加nginx主机配置
 ```sh
 # gitlab socket 文件地址
@@ -123,7 +122,7 @@ cat /opt/gitlab/embedded/service/gitlab-rails/VERSION
 ```
 
 
-> ### 开始汉化
+### 开始汉化
 这里一定要看清楚GitLab最新的中文语言包版本。可以到中文社区看https://gitlab.com/larryli/gitlab/wikis/home
 ```sh
 git clone https://git.coding.net/larryli/gitlab.git
@@ -141,7 +140,7 @@ sudo chmod -R o+x /var/opt/gitlab/gitlab-rails
 至此汉化完毕，打开http://git.home.com ，便会看到中文版的GitLab。如下：
 ![S85DO[16YV793@64{[P{5B6.png](http://gary.yearn.cc/usr/uploads/2016/12/361759954.png)
 
-> ### 卸载方法
+### 卸载方法
 这一步我被坑了不少，一开始我安装了最新的gitlab8.14，发现中文包没有更新过来，但是找不到卸载方法，于是各种覆盖安装和删除文件，最后导致了500错误，redis启动不了。
 ```git
 # Stop gitlab and remove its supervision process

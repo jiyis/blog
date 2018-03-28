@@ -3,8 +3,9 @@ categories: Linux
 tags: [PHP7扩展编译]
 date: 2016-10-14 14:50:00
 ---
-> ### mysql扩展的安装
+### mysql扩展的安装
 由于php7已经默认把mysql去除，所以需要自己去pecl上编译mysql扩展。具体链接如下：http://git.php.net/?p=pecl/database/mysql.git;a=summary
+
 ```sh
 tar zxvf mysql-version.tar.gz
 cd mysql-version
@@ -15,7 +16,7 @@ make && make install
 修改配置文件php.ini,添加 `extension=mysql.so`
 重启php-fpm使其生效
 <!-- more -->
-> ### xdebug扩展的安装
+### xdebug扩展的安装
 ```sh
 git clone git://github.com/xdebug/xdebug.git
 cd xdebug
@@ -46,7 +47,7 @@ xdebug.profiler_output_dir="/vagrant/xdebug"
 xdebug.max_nesting_level  =  200  ;最大循环或调试次数，防止死循环    
 ```
 
-> ### memcached 安装（php-memcache的扩展）
+### memcached 安装（php-memcache的扩展）
 首先下载memcached的服务端，然后编译安装
 ```sh
 wget http://www.memcached.org/files/memcached-1.4.32.tar.gz
@@ -144,7 +145,7 @@ chkconfig memcached on
 service memcached start
 ```
 
-> ### redis的编译安装
+### redis的编译安装
 ```sh
 wget http://download.redis.io/releases/redis-3.2.3.tar.gz
 tar zxvf redis-3.2.3.tar.gz
