@@ -1,8 +1,8 @@
 title: 如何制作自己的docker镜像
 categories: Docker
 tags: [lnmp,centos7,php7]
-
-## date: 2018-04-16 14:07:00
+date: 2018-04-16 14:07:00
+---
 
 ### 前言
 
@@ -41,7 +41,7 @@ Dockerfile由一行行命令语句组成，并且支持用“#”开头作为注
 
 * MAINTAINER：维护者信息，可选
 
-* RUN：用来修改镜像的命令，可以用来安装程序，当一条RUN完成后，会在当前的镜像上创建一个新的镜像层，接下来的指令会在新的镜像层上执行。有2种形式。 
+* RUN：用来修改镜像的命令，可以用来安装程序，当一条RUN完成后，会在当前的镜像上创建一个新的镜像层，接下来的指令会在新的镜像层上执行。有2种形式。
 
   * RUN ["yum", "update"]，调用exec
 
@@ -50,7 +50,7 @@ Dockerfile由一行行命令语句组成，并且支持用“#”开头作为注
 
 * EXPOSE：用来指明容器内进程对外开放的端口。在docker run的时候可以加-p（可以将EXPOSE中没列出的端口设置为对外开放）和-P（EXPOSE里所指定的端口映射到主机上另外的随机端口？？？）来设置端口。
 
-* ADD：向新容器中添加文件,文件可以是 
+* ADD：向新容器中添加文件,文件可以是
 
   * 主机文件：必须是相对Dockerfile所在目录的相对路径（如果是压缩文件，docker会解压缩）
   * 网络文件：URL文件，在创建容器时会下载下来添加到镜像中。（如果是压缩文件，docker不会解压缩）
@@ -68,7 +68,7 @@ Dockerfile由一行行命令语句组成，并且支持用“#”开头作为注
 
 * USER：为容器的运行和RUN CMD ENTRYPOINT等指令的运行  指定用户或者UID
 
-* ONBUILD：触发器指令，父镜像中不会执行，只有在子镜像中才会执行。  
+* ONBUILD：触发器指令，父镜像中不会执行，只有在子镜像中才会执行。
   给一个例子
 
 ```dockerfile
@@ -141,7 +141,7 @@ EXPOSE 80
 - --pre-uninstall:软件包卸载完成之前所要运行的脚本；同—before-remove
   --prefix:制作好的rpm包默认安装路径；
 
-#### 安装FPM 
+#### 安装FPM
 
 ```shell
    yum -y install ruby rubygems ruby-devel
@@ -156,7 +156,7 @@ EXPOSE 80
 #### 几个参照demo
 
 ```shell
- #  php 
+ #  php
  fpm -f -s dir -t rpm -n php --epoch 0 -v 7.1.8 --iteration 3.el7 -C /data/scripts/php -d 'libjpeg libpng freetype libxml2 zlib glibc glib2 bzip2 curl e2fsprogs openssl make  cmake libmcrypt readline libxslt' --before-install /data/scripts/php/before_install.sh --after-install /data/scripts/php/after_install.sh --after-remove /data/scripts/php/after_remove.sh --workdir /data/scripts/php etc usr
 
 #  nginx
